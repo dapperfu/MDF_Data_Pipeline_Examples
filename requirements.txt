@@ -1,0 +1,35 @@
+# MDF
+asammdf
+mdfreader
+
+# Core
+flask
+flask-restful
+flask-ponywoosh
+ponyorm
+
+# Testing
+pytest
+pytest-html
+
+flake8
+flake8-html
+flake8-quotes
+flake8-isort
+flake8-docstrings
+flake8-commas
+flake8-docstrings
+
+mccabe
+pep8-naming
+
+# Development 
+jupyter
+notebook
+
+# IDE
+spyder-line-profiler
+spyder-memory-profiler
+spyder-notebook
+spyder-reports
+spyder-terminal

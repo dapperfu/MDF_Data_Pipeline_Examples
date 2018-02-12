@@ -2,11 +2,12 @@
 asammdf
 mdfreader
 
-# Core
+# Web
 flask
 flask-restful
-flask-ponywoosh
-ponyorm
+pony
+flask-pony
+flask-ponywhoosh
 
 # Testing
 pytest

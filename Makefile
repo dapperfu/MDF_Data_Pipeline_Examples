@@ -1,6 +1,6 @@
 VENV?=.venv
 PIP?=${VENV}/bin/pip
-BASE?=setuptools wheel
+BASE?=setuptools wheel numpy runcython3
 
 
 .DEFAULT: venv

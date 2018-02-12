@@ -1,6 +1,7 @@
 # MDF
 asammdf
 mdfreader
+scipy
 
 # Web
 flask

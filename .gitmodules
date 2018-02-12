@@ -1,0 +1,3 @@
+[submodule "asammdf"]
+	path = asammdf
+	url = git@github.com:jed-frey/asammdf.git

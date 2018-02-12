@@ -1,5 +1,5 @@
 # MDF
-asammdf
+-e asammdf/.
 mdfreader
 scipy
 

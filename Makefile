@@ -23,3 +23,6 @@ Data:
 	@echo Generating faux data
 	${PYTHON} 01_MakeMDF-Data.py
 	@echo Done generating faux data.
+
+mdf_index.sqlite: Data
+	${PYTHON} 02_IndexMDF-Data.py

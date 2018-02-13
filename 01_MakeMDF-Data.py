@@ -3,14 +3,15 @@
 # In[34]:
 
 
-from asammdf import MDF, Signal
-import numpy as np
-import scipy.signal
+import os
 import random
 import uuid
-import os
-import py
 
+import numpy as np
+import py
+import scipy.signal
+
+from asammdf import MDF, Signal
 
 # $$ y(t) = A\sin(2 \pi f t + \varphi) = A\sin(\omega t + \varphi) $$
 

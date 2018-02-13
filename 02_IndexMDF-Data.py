@@ -8,13 +8,15 @@
 # In[1]:
 
 
-import asammdf
-import get_files
-from pony.orm.core import EntityMeta
-import pony.orm
-import py
-import time
 import os
+import time
+
+import get_files
+import pony.orm
+from pony.orm.core import EntityMeta
+import py
+
+import asammdf
 
 pony.orm.set_sql_debug(False)
 
@@ -67,7 +69,6 @@ class Channel(db.Entity):
     )
 db.generate_mapping(create_tables=True)
 
-@pony.orm.db_session
 def upsert(cls, get, set=None):
     """
     Interacting with Pony entities.
@@ -139,11 +140,11 @@ if __name__ == "__main__":
     )
     
     t1=time.time()
-    for data_file in data_files:
+    for idx, data_file in enumerate(data_files):
+        print("Indexing {:04d}: {}".format(idx, data_file))
         index_data_file(
             data_file=data_file,
         )
     t2=time.time()
     
     print("Elapsed Indexing Time: {}".format(t2-t1))
-    

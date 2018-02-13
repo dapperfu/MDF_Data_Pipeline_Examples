@@ -29,7 +29,7 @@ channels = {
     "power": "W",
     "efficiency": "[unitless]",
     "X": "",
-    "Y": "" ,
+    "Y": "",
 }
 
 companies = [
@@ -62,46 +62,53 @@ versions = [
 # In[36]:
 
 
-tf=10
-t1=np.arange(0, tf, 1, dtype=np.float32)
-t2=np.arange(0, tf, 2, dtype=np.float32)
-t5En1=np.arange(0, tf, 5e-1, dtype=np.float32)
-t1En3=np.arange(0, tf, 1e-3, dtype=np.float32)
+tf = 10
+t1 = np.arange(0, tf, 1, dtype=np.float32)
+t2 = np.arange(0, tf, 2, dtype=np.float32)
+t5En1 = np.arange(0, tf, 5e-1, dtype=np.float32)
+t1En3 = np.arange(0, tf, 1e-3, dtype=np.float32)
 timestamps = [t1, t2, t5En1, t1En3]
 
+
 def sine(t, A=1, f=1):
-    sine_ = A*np.sin(
+    sine_ = A * np.sin(
         2 * np.pi * f * t
     )
     return sine_
-    
+
+
 def cos(t, A=1, f=1):
-    cos_ = A*np.sin(
+    cos_ = A * np.sin(
         2 * np.pi * f * t
     )
     return cos_
 
+
 def square(t, A=1, f=1):
-    square_ = A*scipy.signal.square(
+    square_ = A * scipy.signal.square(
         2 * np.pi * f * t
     )
     return square_
 
+
 def sawtooth(t, A=1, f=1):
-    sawtooth_ = A*scipy.signal.sawtooth(
+    sawtooth_ = A * scipy.signal.sawtooth(
         2 * np.pi * f * t,
         width=1,
     )
     return sawtooth_
 
+
 def triangle(t, A=1, f=1):
-    triangle_ = A*scipy.signal.sawtooth(
+    triangle_ = A * scipy.signal.sawtooth(
         2 * np.pi * f * t,
         width=0.5,
     )
     return triangle_
 
+
 signal_generators = [sine, cos, square, sawtooth, triangle]
+
 
 def random_data():
     signals = list()
@@ -110,14 +117,14 @@ def random_data():
             channel_unit = channel_units
         else:
             raise type(channel_units)
-        
+
         signal_generator = random.choice(signal_generators)
-    
+
         A = random.randint(1, 10)
         f = random.randint(1, 100)
         T = random.choice(timestamps)
         Y = signal_generator(T, A, f)
-        
+
         signal_ = Signal(
             samples=Y,
             timestamps=T,
@@ -125,20 +132,20 @@ def random_data():
             unit=channel_unit,
         )
         signals.append(signal_)
-    
+
     company = random.choice(companies)
     product = random.choice(products)
     version = random.choice(versions)
-    
+
     data_file_uuid = str(uuid.uuid4())
-    
+
     channel_path_ = ["Data", company, product, data_file_uuid]
-    
+
     channel_path = py.path.local(
-            os.path.join(*channel_path_)
+        os.path.join(*channel_path_)
     )
     channel_path.dirpath().ensure(dir=True)
-    
+
     mdf = MDF(
         version=version,
     )
@@ -152,6 +159,7 @@ def random_data():
         compression=2,
     )
     return o
+
 
 if __name__ == "__main__":
     for idx in range(1000):

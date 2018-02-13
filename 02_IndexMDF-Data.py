@@ -36,6 +36,7 @@ db.bind(
     create_db=True,
 )
 
+
 class MDF(db.Entity):
     name = pony.orm.Required(
         str,
@@ -44,13 +45,13 @@ class MDF(db.Entity):
         str,
     )
     sha256 = pony.orm.Required(
-        str, 
+        str,
     )
     size = pony.orm.Optional(
-        int, 
+        int,
     )
     size_mb = pony.orm.Optional(
-        float, 
+        float,
     )
     atime = pony.orm.Optional(
         float,
@@ -58,7 +59,8 @@ class MDF(db.Entity):
     channels = pony.orm.Set(
         'Channel',
     )
-    
+
+
 class Channel(db.Entity):
     name = pony.orm.Required(
         str,
@@ -67,7 +69,10 @@ class Channel(db.Entity):
     mdfs = pony.orm.Set(
         "MDF",
     )
+
+
 db.generate_mapping(create_tables=True)
+
 
 def upsert(cls, get, set=None):
     """
@@ -94,6 +99,7 @@ def upsert(cls, get, set=None):
             obj.__setattr__(key, value)
         return obj
 
+
 @pony.orm.db_session
 def index_data_file(data_file):
     """Index ASAMMDF Data File
@@ -104,19 +110,19 @@ def index_data_file(data_file):
     data_file_ = py.path.local(
         path=data_file,
     )
-    
+
     mdf = asammdf.MDF(data_file)
 
     channels = list()
     mdf.channels_db.keys()
     for channel in mdf.channels_db.keys():
-        channel_ = upsert(Channel, {"name": channel})       
+        channel_ = upsert(Channel, {"name": channel})
         channels.append(channel_)
 
     sha256 = data_file_.computehash(
         hashtype="sha256",
     )
-        
+
     MDF_ = upsert(
         cls=MDF,
         get={"sha256": sha256},
@@ -124,27 +130,28 @@ def index_data_file(data_file):
             "name": data_file_.basename,
             "version": mdf.version,
             "size": data_file_.size(),
-            "size_mb": data_file_.size()/1024 ** 2,
-            "atime": data_file_.atime(),            
+            "size_mb": data_file_.size() / 1024 ** 2,
+            "atime": data_file_.atime(),
             "channels": channels,
         },
     )
     db.commit()
-    
+
     return MDF_
+
 
 if __name__ == "__main__":
     data_files = get_files.get_files(
         directory="Data/",
         extensions=[".mdf", ".mf4"],
     )
-    
-    t1=time.time()
+
+    t1 = time.time()
     for idx, data_file in enumerate(data_files):
         print("Indexing {:04d}: {}".format(idx, data_file))
         index_data_file(
             data_file=data_file,
         )
-    t2=time.time()
-    
-    print("Elapsed Indexing Time: {}".format(t2-t1))
+    t2 = time.time()
+
+    print("Elapsed Indexing Time: {}".format(t2 - t1))

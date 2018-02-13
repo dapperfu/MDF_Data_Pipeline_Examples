@@ -32,3 +32,7 @@ mdf_index.sqlite: Data
 lazy:
 	autopep8 --in-place --aggressive --aggressive --aggressive *.py
 	isort --apply *.py
+
+.PHONY: sprint
+sprint:
+	/bin/sh .sprintcommit

@@ -11,10 +11,13 @@ ${VENV}: requirements.txt
 	${PIP} install --upgrade ${BASE}
 	${PIP} install -r requirements.txt
 
+.PHONY: nb
+nb:
+	cd DevNotebooks && ../${VENV}/bin/jupyter-notebook
+
 .PHONY: clean
 clean:
 	@git clean -xfd
 
 requirements.txt:
 	@echo requirements.txt is missing.
-

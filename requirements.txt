@@ -1,7 +1,10 @@
-# MDF
--e asammdf/.
-mdfreader
+
+-e asammdf/.cd ..
 scipy
+
+# Control
+git+https://github.com/python-control/Slycot.git
+git+https://github.com/python-control/python-control.git
 
 # Web
 flask

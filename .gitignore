@@ -5,6 +5,8 @@
 
 **/Data/*
 
+**/*.sqlite
+
 
 ## GitHub Python ignores.
 # Byte-compiled / optimized / DLL files

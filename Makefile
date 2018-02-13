@@ -1,7 +1,8 @@
 VENV?=.venv
 PIP?=${VENV}/bin/pip
-BASE?=setuptools wheel numpy runcython3
+PYTHON?=${VENV}/bin/python
 
+BASE?=setuptools wheel numpy runcython3
 
 .DEFAULT: venv
 venv: ${VENV}
@@ -11,13 +12,14 @@ ${VENV}: requirements.txt
 	${PIP} install --upgrade ${BASE}
 	${PIP} install -r requirements.txt
 
-.PHONY: nb
-nb:
-	cd DevNotebooks && ../${VENV}/bin/jupyter-notebook
-
 .PHONY: clean
 clean:
 	@git clean -xfd
 
 requirements.txt:
 	@echo requirements.txt is missing.
+
+Data:
+	@echo Generating faux data
+	${PYTHON} 01_MakeMDF-Data.py
+	@echo Done generating faux data.

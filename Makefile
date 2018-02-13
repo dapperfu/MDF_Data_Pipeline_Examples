@@ -26,3 +26,9 @@ Data:
 
 mdf_index.sqlite: Data
 	${PYTHON} 02_IndexMDF-Data.py
+
+
+.PHONY: lazy
+lazy:
+	autopep8 --in-place --aggressive --aggressive --aggressive *.py
+	isort --apply *.py

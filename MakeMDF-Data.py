@@ -102,53 +102,42 @@ def triangle(t, A=1, f=1):
 
 signal_generators = [sine, cos, square, sawtooth, triangle]
 
-
-# In[37]:
-
-
-signals = list()
-for channel_name, channel_units in channels.items():
-    if isinstance(channel_units, str):
-        channel_unit = channel_units
-    else:
-        raise type(channel_units)
+def random_data():
+    signals = list()
+    for channel_name, channel_units in channels.items():
+        if isinstance(channel_units, str):
+            channel_unit = channel_units
+        else:
+            raise type(channel_units)
+        
+        signal_generator = random.choice(signal_generators)
     
-    signal_generator = random.choice(signal_generators)
-
-    A = random.randint(1, 10)
-    f = random.randint(1, 100)
-    T = random.choice(timestamps)
-    Y = signal_generator(T, A, f)
+        A = random.randint(1, 10)
+        f = random.randint(1, 100)
+        T = random.choice(timestamps)
+        Y = signal_generator(T, A, f)
+        
+        signal_ = Signal(
+            samples=Y,
+            timestamps=T,
+            name=channel_name,
+            unit=channel_unit,
+        )
+        signals.append(signal_)
     
-    signal_ = Signal(
-        samples=Y,
-        timestamps=T,
-        name=channel_name,
-        unit=channel_unit,
+    company = random.choice(companies)
+    product = random.choice(products)
+    version = random.choice(versions)
+    
+    data_file_uuid = str(uuid.uuid4())
+    
+    channel_path_ = ["Data", company, product, data_file_uuid]
+    
+    channel_path = py.path.local(
+            os.path.join(*channel_path_)
     )
-    signals.append(signal_)
-
-company = random.choice(companies)
-product = random.choice(products)
-version = random.choice(versions)
-
-data_file_uuid = str(uuid.uuid4())
-
-# In[38]:
-
-
-channel_path_ = ["Data", company, product, data_file_uuid]
-
-channel_path = py.path.local(
-        os.path.join(*channel_path_)
-)
-
-channel_path.dirpath().ensure(dir=True)
-
-
-# In[39]:
-
-if __name__ == "__main__":
+    channel_path.dirpath().ensure(dir=True)
+    
     mdf = MDF(
         version=version,
     )
@@ -161,5 +150,12 @@ if __name__ == "__main__":
         overwrite=True,
         compression=2,
     )
-    print(o)
+    return o
 
+if __name__ == "__main__":
+    for _ in range(10000):
+        try:
+            print(random_data())
+        except KeyboardInterrupt:
+            print("\n\nDone\n\n")
+            break

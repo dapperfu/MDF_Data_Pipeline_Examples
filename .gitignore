@@ -3,6 +3,8 @@
 **/*.mdf
 **/*.mf4
 
+**/Data/*
+
 
 ## GitHub Python ignores.
 # Byte-compiled / optimized / DLL files

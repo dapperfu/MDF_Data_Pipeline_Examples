@@ -1,17 +1,12 @@
-
 # coding: utf-8
 
 # In[34]:
 
 
 from asammdf import MDF, Signal
-import asammdf
 import numpy as np
 import scipy.signal
 import random
-import control
-import control.matlab as matlab
-import matplotlib.pyplot as plt
 import uuid
 import os
 import py
@@ -142,7 +137,7 @@ data_file_uuid = str(uuid.uuid4())
 # In[38]:
 
 
-channel_path_ = [company, product, data_file_uuid]
+channel_path_ = ["Data", company, product, data_file_uuid]
 
 channel_path = py.path.local(
         os.path.join(*channel_path_)
@@ -153,18 +148,18 @@ channel_path.dirpath().ensure(dir=True)
 
 # In[39]:
 
-
-mdf = MDF(
-    version=version,
-)
-mdf.append(
-    signals=signals,
-    common_timebase=False,
-)
-o = mdf.save(
-    dst=str(channel_path),
-    overwrite=True,
-    compression=2,
-)
-print(o)
+if __name__ == "__main__":
+    mdf = MDF(
+        version=version,
+    )
+    mdf.append(
+        signals=signals,
+        common_timebase=False,
+    )
+    o = mdf.save(
+        dst=str(channel_path),
+        overwrite=True,
+        compression=2,
+    )
+    print(o)
 

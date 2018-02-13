@@ -24,6 +24,9 @@ Data:
 	${PYTHON} 01_MakeMDF-Data.py
 	@echo Done generating faux data.
 
+.PHONY: index
+index: mdf_index.sqlite
+
 mdf_index.sqlite: Data
 	${PYTHON} 02_IndexMDF-Data.py
 

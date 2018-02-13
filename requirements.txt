@@ -5,6 +5,7 @@ scipy
 # Control
 git+https://github.com/python-control/Slycot.git
 git+https://github.com/python-control/python-control.git
+git+git+https://github.com/trezor/python-mnemonic.git
 
 # Web
 flask

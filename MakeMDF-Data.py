@@ -153,9 +153,10 @@ def random_data():
     return o
 
 if __name__ == "__main__":
-    for _ in range(10000):
+    for idx in range(1000):
         try:
-            print(random_data())
+            file = random_data()
+            print("{:04d}: {}".format(idx, file))
         except KeyboardInterrupt:
             print("\n\nDone\n\n")
             break

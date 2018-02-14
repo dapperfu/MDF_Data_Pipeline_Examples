@@ -26,6 +26,7 @@ channels = {
     "Y": "",
 }
 
+# %%
 companies = [
     "HeavyEquipmentInc",
     "CarCompanyLLC",

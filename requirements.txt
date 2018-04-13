@@ -32,8 +32,8 @@ jupyter
 notebook
 
 # IDE
-spyder-line-profiler
-spyder-memory-profiler
-spyder-notebook
-spyder-reports
-spyder-terminal
+# spyder-line-profiler
+# spyder-memory-profiler
+# spyder-notebook
+# spyder-reports
+# spyder-terminal

@@ -18,3 +18,6 @@ clean:
 requirements.txt:
 	@echo requirements.txt is missing.
 
+.PHONY: deb
+deb:
+	apt-get install python3 python3-venv python3-pip

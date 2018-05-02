@@ -10,14 +10,13 @@ import uuid
 import numpy as np
 import py
 import scipy.signal
+import redis
+import configparser
+import rq
 
 from asammdf import MDF, Signal
 
-# $$ y(t) = A\sin(2 \pi f t + \varphi) = A\sin(\omega t + \varphi) $$
-
-# In[35]:
-
-
+# Fake Channels and associated unit.
 channels = {
     "engine_speed": "rpm",
     "engine_speed_desired": "rpm",
@@ -32,12 +31,15 @@ channels = {
     "Y": "",
 }
 
+# Fake companies
 companies = [
     "HeavyEquipmentInc",
     "CarCompanyLLC",
     "HeavyDutyTruckCorp",
     "AerospaceStartup",
 ]
+
+# Fake Products
 products = [
     "Bulldozer",
     "DumpTruck",
@@ -45,6 +47,8 @@ products = [
     "Transmission",
     "Airplane",
 ]
+
+# Versions of MDF to save data as.
 versions = [
     '2.00',
     '2.10',
@@ -58,17 +62,12 @@ versions = [
     '4.11',
 ]
 
-
-# In[36]:
-
-
 tf = 10
 t1 = np.arange(0, tf, 1, dtype=np.float32)
 t2 = np.arange(0, tf, 2, dtype=np.float32)
 t5En1 = np.arange(0, tf, 5e-1, dtype=np.float32)
 t1En3 = np.arange(0, tf, 1e-3, dtype=np.float32)
 timestamps = [t1, t2, t5En1, t1En3]
-
 
 def sine(t, A=1, f=1):
     sine_ = A * np.sin(
@@ -106,7 +105,7 @@ def triangle(t, A=1, f=1):
     )
     return triangle_
 
-
+# List with each of the signal generator types.
 signal_generators = [sine, cos, square, sawtooth, triangle]
 
 
@@ -160,12 +159,32 @@ def random_data():
     )
     return o
 
-
-if __name__ == "__main__":
+def main():
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+    r = redis.StrictRedis(
+        host=config["redis"]["host"],
+        port=config["redis"]["port"],
+        db=config["redis"]["rq"],
+    )
+    q = rq.Queue(connection=r)
     for idx in range(1000):
         try:
-            file = random_data()
+            q.enqueue(random_data)
             print("{:04d}: {}".format(idx, file))
         except KeyboardInterrupt:
-            print("\n\nDone\n\n")
+            print("\n\nCanceled\n\n")
             break
+        except:
+            raise
+
+if __name__ == "__main__":
+    main()
+ 
+#    for idx in range(1000):
+ #       try:
+  #          file = random_data()
+   #         print("{:04d}: {}".format(idx, file))
+    #    except KeyboardInterrupt:
+     #       print("\n\nDone\n\n")
+      #      break

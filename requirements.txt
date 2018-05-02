@@ -9,6 +9,8 @@ git+https://github.com/jed-frey/get_files.git
 flask
 flask-restful
 pony
+redis
+rq
 flask-pony
 flask-ponywhoosh
 
@@ -25,15 +27,13 @@ flake8-commas
 flake8-docstrings
 
 mccabe
-pep8-naming
+pydocstyle
+pycodestyle
+pylint
 
 # Development 
 jupyter
 notebook
 
 # IDE
-spyder-line-profiler
-spyder-memory-profiler
-spyder-notebook
-spyder-reports
-spyder-terminal
+spyder

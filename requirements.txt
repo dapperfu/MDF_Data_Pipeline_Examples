@@ -8,11 +8,15 @@ git+https://github.com/jed-frey/get_files.git
 # Web
 flask
 flask-restful
-pony
-redis
-rq
 flask-pony
 flask-ponywhoosh
+
+# DB
+pony
+PyMySQL
+redis
+rq
+
 
 # Testing
 pytest
@@ -27,8 +31,6 @@ flake8-commas
 flake8-docstrings
 
 mccabe
-pydocstyle
-pycodestyle
 pylint
 
 # Development 

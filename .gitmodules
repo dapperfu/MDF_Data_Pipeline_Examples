@@ -1,3 +1,6 @@
 [submodule "asammdf"]
 	path = asammdf
 	url = git@github.com:jed-frey/asammdf.git
+[submodule ".mk_inc"]
+	path = .mk_inc
+	url = https://github.com/jed-frey/make_sandwich.git

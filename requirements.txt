@@ -1,8 +1,6 @@
 -e asammdf/.
 scipy
 
-git+https://github.com/python-control/Slycot.git
-git+https://github.com/python-control/python-control.git
 git+https://github.com/jed-frey/get_files.git
 
 # Web
@@ -16,7 +14,6 @@ pony
 PyMySQL
 redis
 rq
-
 
 # Testing
 pytest

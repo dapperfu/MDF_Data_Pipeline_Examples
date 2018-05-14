@@ -14,7 +14,13 @@ Tested on Ubuntu 16.04 LTS, Ubuntu 18.04 LTS, & FreeBSD 11.1-CURRENT.
 
 # Usage
 
-```[This space intentionally left blank]```
+Create a bunch of MDF data for a bunch of **fake** products from **fake** corporations.
+
+    make Data
+
+Index all of the **fake** MDF files into a local sqlite database: ```mdf_index.sqlite```
+
+    make index
 
 # Requirements
 

@@ -6,7 +6,11 @@
 
 # Installation
 
-```[This space intentionally left blank]```
+Tested on Ubuntu 16.04 LTS, Ubuntu 18.04 LTS, & FreeBSD 11.1-CURRENT.
+
+    git clone --recurse-submodules --shallow-submodules https://github.com/jed-frey/python_MDF_Indexer.git
+    sudo make env.host
+    make env
 
 # Usage
 

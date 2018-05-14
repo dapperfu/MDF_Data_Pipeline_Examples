@@ -18,6 +18,11 @@ ifneq ("${MK_DIR}", "${SANDWICH_DIR}")
 	# ${SANDWICH_DIR}
 endif
 
+.PHONY: env
+env:
+	${MAKE} -C ${MK_DIR} env.python
+	${MAKE} -C ${MK_DIR} env.python
+
 ## Action Targets
 .PHONY:nb
 nb:

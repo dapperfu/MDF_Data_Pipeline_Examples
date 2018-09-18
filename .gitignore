@@ -3,6 +3,19 @@
 **/*.mdf
 **/*.mf4
 
+**/Data/*
+
+**/*.sqlite
+
+.env-*
+
+bin/
+etc/
+lib64
+pip-selfcheck.json
+pyvenv.cfg
+share/
+
 
 ## GitHub Python ignores.
 # Byte-compiled / optimized / DLL files

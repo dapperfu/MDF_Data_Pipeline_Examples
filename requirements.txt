@@ -1,14 +1,19 @@
-# MDF
-asammdf
-mdfreader
+-e asammdf/.
 scipy
+
+git+https://github.com/jed-frey/get_files.git
 
 # Web
 flask
 flask-restful
-pony
 flask-pony
 flask-ponywhoosh
+
+# DB
+pony
+PyMySQL
+redis
+rq
 
 # Testing
 pytest
@@ -23,15 +28,11 @@ flake8-commas
 flake8-docstrings
 
 mccabe
-pep8-naming
+pylint
 
 # Development 
 jupyter
 notebook
 
 # IDE
-spyder-line-profiler
-spyder-memory-profiler
-spyder-notebook
-spyder-reports
-spyder-terminal
+spyder

@@ -1,11 +1,7 @@
--e asammdf/.
-scipy
-
-git+https://github.com/jed-frey/get_files.git
-
 # Web
 flask
-flask-restful
+flask-bootstrap4
+flask-wtf
 flask-pony
 flask-ponywhoosh
 
@@ -18,21 +14,3 @@ rq
 # Testing
 pytest
 pytest-html
-
-flake8
-flake8-html
-flake8-quotes
-flake8-isort
-flake8-docstrings
-flake8-commas
-flake8-docstrings
-
-mccabe
-pylint
-
-# Development 
-jupyter
-notebook
-
-# IDE
-spyder

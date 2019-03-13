@@ -41,8 +41,7 @@ def hello(distribute, **kwargs):
     if distribute:
         distributed_data_gen(**kwargs)
     else:
-        local_data_genInfluxDB Python Examples
-(**kwargs)
+        local_data_gen(**kwargs)
 
 
 if __name__ == '__main__':

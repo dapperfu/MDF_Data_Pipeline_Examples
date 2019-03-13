@@ -70,7 +70,7 @@ versions = [
 
 # Sample Time Data Generation
 ## Total signal time
-tf = 10
+tf = 3600
 # Multiple time vectors
 t1 = np.arange(0, tf, 1, dtype=np.float32)
 t2 = np.arange(0, tf, 2, dtype=np.float32)

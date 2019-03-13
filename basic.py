@@ -10,10 +10,7 @@ import os
 
 nav = Nav()
 topbar = Navbar(
-    "",
-    View("Home", "frontend.index"),
-    Text("Foo"),
-    Subgroup("Products", Text("Bar"), Separator(), Text("Baz")),
+    "", View("Home", "frontend.index"), Text("Foo"), Subgroup("Products", Text("Bar"), Separator(), Text("Baz"))
 )
 nav.register_element("top", topbar)
 

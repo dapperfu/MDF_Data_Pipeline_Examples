@@ -55,18 +55,7 @@ products = [
 ]
 
 # Versions of MDF to save data as.
-versions = [
-    "2.00",
-    "2.10",
-    "2.14",
-    "3.00",
-    "3.10",
-    "3.20",
-    "3.30",
-    "4.00",
-    "4.10",
-    "4.11",
-]
+versions = ["2.00", "2.10", "2.14", "3.00", "3.10", "3.20", "3.30", "4.00", "4.10", "4.11"]
 
 # Sample Time Data Generation
 ## Total signal time

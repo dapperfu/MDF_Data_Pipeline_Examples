@@ -9,11 +9,7 @@ import make_data
 def distributed_data_gen(n=1, *args, **kwargs):
     config = configparser.ConfigParser()
     config.read("config.ini")
-    r = redis.StrictRedis(
-        host=config["redis"]["host"],
-        port=config["redis"]["port"],
-        db=config["redis"]["rq"],
-    )
+    r = redis.StrictRedis(host=config["redis"]["host"], port=config["redis"]["port"], db=config["redis"]["rq"])
     q = rq.Queue(connection=r)
     for idx in range(n):
         try:

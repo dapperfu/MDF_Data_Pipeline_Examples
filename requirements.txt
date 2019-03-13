@@ -1,9 +1,7 @@
 # Web
 flask
-flask-bootstrap4
-flask-wtf
-flask-pony
-flask-ponywhoosh
+flask-nav
+flask-bootstrap
 
 # DB
 pony
@@ -14,3 +12,12 @@ rq
 # Testing
 pytest
 pytest-html
+
+jupyter
+notebook
+
+asammdf
+git+https://github.com/jed-frey/jupyter_NotebookCleaners.git#egg=notebookcleaner
+git+https://github.com/jupyter/jupyter_console.git#egg=jupyter_console
+
+scipy

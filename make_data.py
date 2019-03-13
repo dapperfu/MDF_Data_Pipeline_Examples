@@ -22,23 +22,36 @@ channels = {
     "efficiency": "[unitless]",
     "X": "",
     "Y": "",
+    "VehicleDetected": "",
+    "HumanDetected": "",
+    "AutopilotEngaged": "",
 }
 
-# Fake companies
-companies = [
-    "HeavyEquipmentInc",
-    "CarCompanyLLC",
-    "HeavyDutyTruckCorp",
-    "AerospaceStartup",
-]
+# Fake companies & their certifications.
+companies = {
+    "HeavyEquipmentInc": ["IEC 61508"],
+    "CarCompanyLLC": ["ISO-26262"],
+    "HeavyDutyTruckCorp": ["IEC 61508", "ISO-26262"],
+    "SlowlyDyingGuerilla": ["DO-187C"],
+    "DasAutoGMBH": ["ISO-26262"],
+    "Sil.icon.Vall.eyStartup": ["ISO-26262", "IEC 61508", "DO-187C"],
+    "Tier1": ["ISO-26262", "IEC 61508", "DO-187C"],
+    "Tier2": ["ISO-26262", "IEC 61508", "DO-187C"],
+    "Tier3": ["ISO-26262", "IEC 61508", "DO-187C"],
+}
 
 # Fake Products
 products = [
     "Bulldozer",
     "DumpTruck",
-    "Excavator",
+    "Skidsteer",
+    "SUV",
+    "Wagon",
     "Transmission",
     "Airplane",
+    "SpaceShip",
+    "ADAS",
+    "SkunkWorks",
 ]
 
 # Versions of MDF to save data as.
@@ -69,7 +82,7 @@ timestamps = [t1, t2, t5En1, t1En3]
 
 def sine(t, A=1, f=1):
     """SINE
-    
+
     """
     sine_ = A * np.sin(
         2 * np.pi * f * t
@@ -79,7 +92,7 @@ def sine(t, A=1, f=1):
 
 def cos(t, A=1, f=1):
     """COSINE
-    
+
     """
     cos_ = A * np.sin(
         2 * np.pi * f * t
@@ -89,7 +102,7 @@ def cos(t, A=1, f=1):
 
 def square(t, A=1, f=1):
     """SQUARE
-    
+
     """
     square_ = A * scipy.signal.square(
         2 * np.pi * f * t
@@ -99,7 +112,7 @@ def square(t, A=1, f=1):
 
 def sawtooth(t, A=1, f=1):
     """SAWTOOTH
-    
+
     """
     sawtooth_ = A * scipy.signal.sawtooth(
         2 * np.pi * f * t,
@@ -144,13 +157,14 @@ def random_data():
         )
         signals.append(signal_)
 
-    company = random.choice(companies)
+    company = random.choice(list(companies.keys()))
+    certification = random.choice(companies[company])
     product = random.choice(products)
     version = random.choice(versions)
 
     data_file_uuid = str(uuid.uuid4())
 
-    channel_path_ = ["Data", company, product, data_file_uuid]
+    channel_path_ = ["Data", company, product, certification, data_file_uuid]
 
     channel_path = py.path.local(
         os.path.join(*channel_path_)

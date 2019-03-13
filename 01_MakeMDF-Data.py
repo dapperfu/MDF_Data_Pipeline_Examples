@@ -5,9 +5,10 @@ import rq
 
 import make_data
 
+
 def distributed_data_gen(n=1, *args, **kwargs):
     config = configparser.ConfigParser()
-    config.read('config.ini')
+    config.read("config.ini")
     r = redis.StrictRedis(
         host=config["redis"]["host"],
         port=config["redis"]["port"],
@@ -24,6 +25,7 @@ def distributed_data_gen(n=1, *args, **kwargs):
         except:
             raise
 
+
 def local_data_gen(n=1, *args, **kwargs):
     for idx in range(n):
         try:
@@ -33,16 +35,17 @@ def local_data_gen(n=1, *args, **kwargs):
             print("\n\nDone\n\n")
             break
 
+
 @click.command()
-@click.option('--distribute/--no-distribute', default=False)
-@click.option('--N', default=1, show_default=True)
+@click.option("--distribute/--no-distribute", default=False)
+@click.option("--N", default=1, show_default=True)
 def hello(distribute, **kwargs):
-#    print(kwargs)
+    #    print(kwargs)
     if distribute:
         distributed_data_gen(**kwargs)
     else:
         local_data_gen(**kwargs)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     hello()

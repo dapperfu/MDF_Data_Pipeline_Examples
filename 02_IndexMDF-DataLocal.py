@@ -1,4 +1,3 @@
-
 # coding: utf-8
 
 # # PonyORM MDF Indexer
@@ -28,47 +27,24 @@ pony.orm.set_sql_debug(False)
 
 db = pony.orm.Database()
 
-database_file = os.path.abspath('mdf_index.sqlite')
+database_file = os.path.abspath("mdf_index.sqlite")
 
-db.bind(
-    provider='sqlite',
-    filename=database_file,
-    create_db=True,
-)
+db.bind(provider="sqlite", filename=database_file, create_db=True)
 
 
 class MDF(db.Entity):
-    name = pony.orm.Required(
-        str,
-    )
-    version = pony.orm.Required(
-        str,
-    )
-    sha256 = pony.orm.Required(
-        str,
-    )
-    size = pony.orm.Optional(
-        int,
-    )
-    size_mb = pony.orm.Optional(
-        float,
-    )
-    atime = pony.orm.Optional(
-        float,
-    )
-    channels = pony.orm.Set(
-        'Channel',
-    )
+    name = pony.orm.Required(str)
+    version = pony.orm.Required(str)
+    sha256 = pony.orm.Required(str)
+    size = pony.orm.Optional(int)
+    size_mb = pony.orm.Optional(float)
+    atime = pony.orm.Optional(float)
+    channels = pony.orm.Set("Channel")
 
 
 class Channel(db.Entity):
-    name = pony.orm.Required(
-        str,
-        unique=True,
-    )
-    mdfs = pony.orm.Set(
-        "MDF",
-    )
+    name = pony.orm.Required(str, unique=True)
+    mdfs = pony.orm.Set("MDF")
 
 
 db.generate_mapping(create_tables=True)
@@ -107,9 +83,7 @@ def index_data_file(data_file):
     :param data_file: Path to ASAM MDF data file
     :return MDF: PonyORM MDF class
     """
-    data_file_ = py.path.local(
-        path=data_file,
-    )
+    data_file_ = py.path.local(path=data_file)
 
     mdf = asammdf.MDF(data_file)
 
@@ -119,9 +93,7 @@ def index_data_file(data_file):
         channel_ = upsert(Channel, {"name": channel})
         channels.append(channel_)
 
-    sha256 = data_file_.computehash(
-        hashtype="sha256",
-    )
+    sha256 = data_file_.computehash(hashtype="sha256")
 
     MDF_ = upsert(
         cls=MDF,
@@ -141,17 +113,12 @@ def index_data_file(data_file):
 
 
 if __name__ == "__main__":
-    data_files = get_files.get_files(
-        directory="Data/",
-        extensions=[".mdf", ".mf4"],
-    )
+    data_files = get_files.get_files(directory="Data/", extensions=[".mdf", ".mf4"])
 
     t1 = time.time()
     for idx, data_file in enumerate(data_files):
         print("Indexing {:04d}: {}".format(idx, data_file))
-        index_data_file(
-            data_file=data_file,
-        )
+        index_data_file(data_file=data_file)
     t2 = time.time()
 
     print("Elapsed Indexing Time: {}".format(t2 - t1))

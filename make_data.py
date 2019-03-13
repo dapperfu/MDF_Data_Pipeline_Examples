@@ -56,16 +56,16 @@ products = [
 
 # Versions of MDF to save data as.
 versions = [
-    '2.00',
-    '2.10',
-    '2.14',
-    '3.00',
-    '3.10',
-    '3.20',
-    '3.30',
-    '4.00',
-    '4.10',
-    '4.11',
+    "2.00",
+    "2.10",
+    "2.14",
+    "3.00",
+    "3.10",
+    "3.20",
+    "3.30",
+    "4.00",
+    "4.10",
+    "4.11",
 ]
 
 # Sample Time Data Generation
@@ -84,9 +84,7 @@ def sine(t, A=1, f=1):
     """SINE
 
     """
-    sine_ = A * np.sin(
-        2 * np.pi * f * t
-    )
+    sine_ = A * np.sin(2 * np.pi * f * t)
     return sine_
 
 
@@ -94,9 +92,7 @@ def cos(t, A=1, f=1):
     """COSINE
 
     """
-    cos_ = A * np.sin(
-        2 * np.pi * f * t
-    )
+    cos_ = A * np.sin(2 * np.pi * f * t)
     return cos_
 
 
@@ -104,9 +100,7 @@ def square(t, A=1, f=1):
     """SQUARE
 
     """
-    square_ = A * scipy.signal.square(
-        2 * np.pi * f * t
-    )
+    square_ = A * scipy.signal.square(2 * np.pi * f * t)
     return square_
 
 
@@ -114,21 +108,16 @@ def sawtooth(t, A=1, f=1):
     """SAWTOOTH
 
     """
-    sawtooth_ = A * scipy.signal.sawtooth(
-        2 * np.pi * f * t,
-        width=1,
-    )
+    sawtooth_ = A * scipy.signal.sawtooth(2 * np.pi * f * t, width=1)
     return sawtooth_
 
 
 def triangle(t, A=1, f=1):
     """TRIANGLE
     """
-    triangle_ = A * scipy.signal.sawtooth(
-        2 * np.pi * f * t,
-        width=0.5,
-    )
+    triangle_ = A * scipy.signal.sawtooth(2 * np.pi * f * t, width=0.5)
     return triangle_
+
 
 # List with each of the signal generator types.
 signal_generators = [sine, cos, square, sawtooth, triangle]
@@ -149,12 +138,7 @@ def random_data():
         T = random.choice(timestamps)
         Y = signal_generator(T, A, f)
 
-        signal_ = Signal(
-            samples=Y,
-            timestamps=T,
-            name=channel_name,
-            unit=channel_unit,
-        )
+        signal_ = Signal(samples=Y, timestamps=T, name=channel_name, unit=channel_unit)
         signals.append(signal_)
 
     company = random.choice(list(companies.keys()))
@@ -166,21 +150,10 @@ def random_data():
 
     channel_path_ = ["Data", company, product, certification, data_file_uuid]
 
-    channel_path = py.path.local(
-        os.path.join(*channel_path_)
-    )
+    channel_path = py.path.local(os.path.join(*channel_path_))
     channel_path.dirpath().ensure(dir=True)
 
-    mdf = MDF(
-        version=version,
-    )
-    mdf.append(
-        signals=signals,
-        common_timebase=False,
-    )
-    o = mdf.save(
-        dst=str(channel_path),
-        overwrite=True,
-        compression=2,
-    )
+    mdf = MDF(version=version)
+    mdf.append(signals=signals, common_timebase=False)
+    o = mdf.save(dst=str(channel_path), overwrite=True, compression=2)
     return o

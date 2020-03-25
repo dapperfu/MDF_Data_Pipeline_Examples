@@ -1,50 +1,40 @@
-# Config
+## Setup
+# Python VER
+VER=3.8
 
-## Targets
-# Do nothing.
-.PHONY: null
-null:
-	@$(error No Default Target).
 
-ifeq ("${MK_DIR}", "${SANDWICH_DIR}")
-	@echo Equal
-	# ${MK_DIR}
-	# ${SANDWICH_DIR}
-endif
+# Paths
+PROJ_DIR:=$(realpath $(dir $(firstword ${MAKEFILE_LIST})))
+PROJ?=$(notdir ${PROJ_DIR})
+VENV?=venv${VER}
+BIN=$(abspath ${VENV}/bin)
+PYTHON=${BIN}/python${VER}
 
-ifneq ("${MK_DIR}", "${SANDWICH_DIR}")
-	@echo Unequal
-	# ${MK_DIR}
-	# ${SANDWICH_DIR}
-endif
+# Debug Variables
+.PHONY: debug
+debug:
+	$(info $${PROJ_DIR}=${PROJ_DIR})
+	$(info $${PROJ}=${PROJ})
+	$(info $${BIN}=${BIN})
+	$(info $${PYTHON}=${PYTHON})
 
-.PHONY: env
-env:
-	${MAKE} -C ${MK_DIR} env.python
-	${MAKE} -C ${MK_DIR} env.python
-
-.PHONY: deb
-deb:
-	apt-get install python3 python3-venv python3-pip
-
-## Action Targets
-.PHONY:nb
-nb:
-	screen -S ${PROJ} -d -m bin/jupyter-notebook --ip=${HOST}
-
-.PHONY:worker
-worker:
-	${PYTHON} worker.py
-
-.PHONY: lazy
-lazy:
-	autopep8 --in-place --aggressive --aggressive --aggressive *.py
-	isort --apply *.py
-
+# Create virtual environment.
+.PHONY: venv
+venv: ${VENV}
+${VENV}:
+	@python3.8 -mvenv ${@}
+	@${BIN}/pip install --upgrade pip setuptools wheel
+	@${MAKE} requirements
+	
+# Install requirements
+.PHONY: requirements
+requirements: requirements.txt
+	@${BIN}/pip install --upgrade --requirement requirements.txt
+	
 ## File Targets
 
 ### Create fake data
-Data:
+Data: ${VENV}
 	@echo --- Generating faux data ---
 	${PYTHON} 01_MakeMDF-Data.py
 	@echo Done generating faux data.
@@ -53,6 +43,54 @@ Data:
 .PHONY: index
 index: mdf_index.sqlite
 mdf_index.sqlite: Data
-	${PYTHON} 02_IndexMDF-Data.py
+	${PYTHON} 02_IndexMDF-DataLocal.py
 
-include $(realpath .mk_inc/env.mk)
+## Action Targets
+# Notebook in a screen.
+.PHONY:nb
+nb:
+	screen -S ${PROJ} -d -m ${BIN}/jupyter-notebook --ip=
+
+# Notebook locally in a screen.
+.PHONY:nbl
+nbl:
+	screen -S ${PROJ} -d -m ${BIN}/jupyter-notebook
+
+# Launch a worker.
+.PHONY:worker
+worker:
+	${PYTHON} worker.py
+
+
+## Make Documentation
+# Generate the README from the Jupyter Notebook.
+README.md: README.ipynb
+	jupyter-nbconvert --ExecutePreprocessor.timeout=600 --execute --to markdown --output=${@} ${<}
+
+.PHONY: clean.docs
+clean.docs:
+	rm -rf docs
+# Convert Notebooks to other formats.
+IPYNB:=$(wildcard *.ipynb)
+PY:=$(patsubst %.ipynb,scripts/%.py,${IPYNB})
+MD:=$(patsubst %.ipynb,docs/markdown/%.md,${IPYNB})
+PDF:=$(patsubst %.ipynb,docs/pdf/%.pdf,${IPYNB})
+HTML:=$(patsubst %.ipynb,docs/html/%.html,${IPYNB})
+.PHONY: docs
+docs: ${MD} ${PDF} ${HTML} ${PY}
+
+scripts/%.py: %.ipynb
+	mkdir -p `dirname ${@}`
+	-${BIN}/jupyter-nbconvert --ExecutePreprocessor.timeout=600 --execute --to python --output=${@} ${<}
+
+docs/markdown/%.md: %.ipynb
+	mkdir -p `dirname ${@}`
+	-jupyter-nbconvert --ExecutePreprocessor.timeout=600 --execute --to markdown --output=${@} ${<}
+
+docs/pdf/%.pdf: %.ipynb
+	mkdir -p `dirname ${@}`
+	-jupyter-nbconvert --ExecutePreprocessor.timeout=600 --execute --to pdf --output=${@} ${<}
+
+docs/html/%.html: %.ipynb
+	mkdir -p `dirname ${@}`
+	-jupyter-nbconvert --ExecutePreprocessor.timeout=600 --execute --to html --output=${@} ${<}

@@ -1,35 +1,10 @@
-# MDF Indexer
+# MDF Data Pipeline Examples
 
-**Engineers**: Index, process, and analyze your MDF files. Make use of the terabytes of data sitting on all those shared drives.
+{TODO:} Turnkey examples for MDF data analysis.
 
-**Managers**: *Webscale data analytics commercial off-the-shelf opensource components*
+**Engineers**: It's some Python stuff. Index, process, and analyze your MDF files. Make use of the terabytes of data sitting on all those shared drives.
 
-# Installation
-
-Tested on Ubuntu 16.04 LTS, Ubuntu 18.04 LTS, & FreeBSD 11.1-CURRENT.
-
-    git clone --recurse-submodules --shallow-submodules https://github.com/jed-frey/python_MDF_Indexer.git
-    sudo make env.host
-    make env
-
-# Usage
-
-Create a bunch of MDF data for a bunch of **fake** products from **fake** corporations.
-
-    make Data
-
-Index all of the **fake** MDF files into a local sqlite database: ```mdf_index.sqlite```
-
-    make index
-
-
-
-# Issues:
-
-
-# Requirements
-
-```[This space intentionally left blank]```
+**Managers**: *Webscale data analytics commercial off-the-shelf opensource components*. *Edge Computing Data Analysis for Sensitive Data*.
 
 ### Acknowledgments
 
@@ -47,7 +22,7 @@ This project would not be possible without a multiple other existing projects, i
 This project would not have been necessary if it wasn't for current industry tools, including but not limited to:
 
 - [DIAdem](http://www.ni.com/diadem): *Software specifically designed to "help" engineers and scientists quickly locate, inspect, analyze, and report on measurement data using one software tool.*
-    - *Starting* at  $1225
+    - *Starting* at $1225
     - Visual Basic
     
  

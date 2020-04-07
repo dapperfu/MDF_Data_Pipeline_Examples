@@ -1,3 +1,5 @@
+#!/usr/bin/env pytohn3
+
 import click
 import redis
 import configparser

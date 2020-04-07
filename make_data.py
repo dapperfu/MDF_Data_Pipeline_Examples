@@ -66,7 +66,7 @@ t2 = np.arange(0, tf, 2, dtype=np.float32)
 t5En1 = np.arange(0, tf, 5e-1, dtype=np.float32)
 t1En3 = np.arange(0, tf, 1e-3, dtype=np.float32)
 # List of all possible time vectors.
-timestamps = [t1, t2, t5En1, t1En3]
+timestamps = [t5En1, t1En3]
 
 
 def sine(t, A=1, f=1):
@@ -122,7 +122,7 @@ def random_data():
 
         signal_generator = random.choice(signal_generators)
 
-        A = random.randint(1, 10)
+        A = random.randint(1, 100)
         f = random.randint(1, 100)
         T = random.choice(timestamps)
         Y = signal_generator(T, A, f)

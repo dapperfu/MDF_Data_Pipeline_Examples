@@ -25,12 +25,12 @@ ${VENV}:
 	@python3.8 -mvenv ${@}
 	@${BIN}/pip install --upgrade pip setuptools wheel
 	@${MAKE} requirements
-	
+
 # Install requirements
 .PHONY: requirements
 requirements: requirements.txt
 	@${BIN}/pip install --upgrade --requirement requirements.txt
-	
+
 ## File Targets
 
 ### Create fake data

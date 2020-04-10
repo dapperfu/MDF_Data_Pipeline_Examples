@@ -1,39 +1,38 @@
-scipy
 asammdf
+
+flake8
+flake8-commas
+flake8-docstrings
+flake8-docstrings
+flake8-html
+flake8-isort
+flake8-quotes
 
 # Web
 flask
-flask-restful
 flask-pony
 flask-ponywhoosh
+flask-restful
+
+git+https://github.com/dapperfu/get_files.git
+
+# Development
+jupyter
+
+mccabe
+notebook
 
 # DB
 pony
+pylint
 PyMySQL
-redis
-rq
 
 # Testing
 pytest
 pytest-html
-
-flake8
-flake8-html
-flake8-quotes
-flake8-isort
-flake8-docstrings
-flake8-commas
-flake8-docstrings
-
-mccabe
-pylint
-
-# Development 
-jupyter
-notebook
+redis
+rq
+scipy
 
 # IDE
 spyder
-
-git+https://github.com/dapperfu/get_files.git
-

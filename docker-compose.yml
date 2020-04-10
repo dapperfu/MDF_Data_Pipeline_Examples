@@ -1,0 +1,88 @@
+services:
+  flask:
+    hostname: mdf_flask
+    container_name: mdf_flask
+    build:
+      context: ./flask_callback
+    ports:
+      - 45000:5000
+  adminer:
+    container_name: mdf_adminer
+    image: adminer
+    restart: always
+    ports:
+      - 48080:8080
+  jupyter:
+    container_name: mdf_jupyter
+    image: jupyter/scipy-notebook:latest
+    ports:
+    - 48888:8888/tcp
+    volumes:
+    - ./data:/data:rw
+    - .:/home/jovyan:rw
+  minio:
+    command: server /data
+    container_name: mdf_minio
+    environment:
+      MINIO_ACCESS_KEY: mdf_minio_access_key
+      MINIO_SECRET_KEY: mdf_minio_secret_key
+      MINIO_NOTIFY_MQTT_ENABLE_target1: "on"
+      MINIO_NOTIFY_MQTT_BROKER_target1: "tcp://mdf_rabbitmq:5672"
+      MINIO_NOTIFY_MQTT_TOPIC_target1: "minio/notify"
+      MINIO_NOTIFY_WEBHOOK_ENABLE_target1: "on"
+      MINIO_NOTIFY_WEBHOOK_ENDPOINT_target1: "http://mdf_flask:5000/minio_notify_webhook_endpoint/"
+      MINIO_LOGGER_WEBHOOK_ENABLE_target1: "on"
+      MINIO_LOGGER_WEBHOOK_AUTH_TOKEN_target1: "logger_auth_token"
+      MINIO_LOGGER_WEBHOOK_ENDPOINT_target1: "http://mdf_flask:5000/minio_logger_webhook_endpoint/"
+      MINIO_AUDIT_WEBHOOK_ENABLE_target1: "on"
+      MINIO_AUDIT_WEBHOOK_AUTH_TOKEN_target1: "autit_auth_token"
+      MINIO_AUDIT_WEBHOOK_ENDPOINT_target1: "http://mdf_flask:5000/minio_audit_webhook_endpoint/"
+    hostname: mdf_minio
+    image: minio/minio:latest
+    ports:
+    - 49000:9000/tcp
+    restart: always
+    volumes:
+    - ./minio_config:/root/.minio:rw
+    - ./mdf_data:/data:rw
+  mysql:
+    container_name: mdf_mysql
+    environment:
+      MYSQL_DATABASE: mdf_database
+      MYSQL_PASSWORD: mdf_indexer_pass
+      MYSQL_ROOT_PASSWORD: mdf_indexer_root_password
+      MYSQL_USER: mdf_indexer_user
+    image: mysql:latest
+    ports:
+    - 43306:3306/tcp
+    restart: always
+    volumes:
+    - ./mysql_db_data:/var/lib/mysql:rw
+  rabbitmq:
+    container_name: mdf_rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_PASS: rabbitmq_pass
+      RABBITMQ_DEFAULT_USER: rabbitmq_user
+    hostname: mdf_rabbitmq
+    image: rabbitmq:3-management
+    ports:
+    - 45672:5672/tcp
+    - 55672:15672/tcp
+    restart: always
+  redis:
+    command: redis-server
+    container_name: mdf_redis
+    hostname: mdf_redis
+    image: redis:latest
+    ports:
+    - 46379:6379/tcp
+    restart: always
+  rq_dashboard:
+    container_name: mdf_rq_dashboard
+    hostname: mdf_rq_dashboard
+    image: eoranged/rq-dashboard
+    ports:
+    - 49181:9181
+    environment:
+      RQ_DASHBOARD_REDIS_URL: redis://redis:6379
+version: '3.0'

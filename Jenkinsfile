@@ -3,17 +3,17 @@ pipeline {
     stages {
         stage('venv') {
             steps {
-                sh 'make venv' 
+                sh 'make venv'
             }
         }
         stage('Data') {
             steps {
-                sh 'make Data' 
+                sh 'make Data'
             }
         }
 		stage('Index') {
             steps {
-                sh 'make mdf_index.sqlite' 
+                sh 'make mdf_index.sqlite'
             }
 		}
     }

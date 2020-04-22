@@ -1,6 +1,3 @@
-s3fs
-
-asammdf
 
 flake8
 flake8-commas
@@ -17,6 +14,7 @@ flask-ponywhoosh
 flask-restful
 
 fsspec
+s3fs
 
 # Development
 jupyter

@@ -1,6 +1,6 @@
 #
-.ipynb
-.jupyter
+.jupyter/*
+.ipython/*
 
 **/*.MDF
 **/*.mdf

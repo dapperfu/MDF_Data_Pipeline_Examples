@@ -13,7 +13,6 @@ Compose is a tool for defining and running multi-container Docker applications. 
 - Minio (S3)
 - Redis (For rq)
 
-
 #
 
     mc config host add mdf http://127.0.0.1:49000 mdf_minio_access_key mdf_minio_secret_key
@@ -21,6 +20,10 @@ Compose is a tool for defining and running multi-container Docker applications. 
 
    docker-compose logs -f s3_callback
 
+
+Adminer:
+
+   http://localhost:43307/
 
 [http://rabbitmq_user:rabbitmq_pass@localhost:45673](http://rabbitmq_user:rabbitmq_pass@localhost:45673)
 

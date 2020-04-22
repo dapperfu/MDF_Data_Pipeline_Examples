@@ -1,4 +1,7 @@
 #
+.ipynb
+.jupyter
+
 **/*.MDF
 **/*.mdf
 **/*.mf4

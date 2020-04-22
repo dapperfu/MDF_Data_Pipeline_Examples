@@ -1,7 +1,6 @@
 # Turnkey MDF Data Pipeline Examples
 
 **Engineers**: It's some Python stuff. Index, process, and analyze your MDF files. Make use of the terabytes of data sitting on all those shared drives. Aggregate a lot of data, or mine a lot of data looking for one 15 ms flag event.
-
 **Managers**: *Webscale data analytics commercial off-the-shelf opensource components*. *Edge Computing Data Analysis for Sensitive Data*.
 
 ## ```docker-compose```
@@ -13,6 +12,18 @@ Compose is a tool for defining and running multi-container Docker applications. 
 - mysql database
 - Minio (S3)
 - Redis (For rq)
+
+
+#
+
+    mc config host add mdf http://127.0.0.1:49000 mdf_minio_access_key mdf_minio_secret_key
+
+
+   docker-compose logs -f s3_callback
+
+
+[http://rabbitmq_user:rabbitmq_pass@localhost:45673](http://rabbitmq_user:rabbitmq_pass@localhost:45673)
+
 
 ### Acknowledgments
 

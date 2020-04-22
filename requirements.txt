@@ -1,3 +1,5 @@
+s3fs
+
 asammdf
 
 flake8
@@ -14,7 +16,7 @@ flask-pony
 flask-ponywhoosh
 flask-restful
 
-git+https://github.com/dapperfu/get_files.git
+fsspec
 
 # Development
 jupyter

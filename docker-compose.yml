@@ -1,17 +1,26 @@
+version: '3.0'
 services:
-  flask:
-    hostname: mdf_flask
-    container_name: mdf_flask
+  s3_callback:
+    # Simple flask app that processes s3 callbacks.
+    hostname: s3_callback
+    container_name: s3_callback
     build:
       context: ./flask_callback
     ports:
       - 45000:5000
   adminer:
+    # Database management in a single PHP file.
+    # For looking at the indexing database.s
     container_name: mdf_adminer
     image: adminer
     restart: always
+    environment:
+      ADMINER_DEFAULT_SERVER: "mysql"
+      ADMINER_DEFAULT_USER: "mdf_indexer_user"
+      ADMINER_DEFAULT_PASS: "mdf_indexer_pass"
+      ADMINER_DEFAULT_DB: "mdf_database"
     ports:
-      - 48080:8080
+      - 43307:8080
   jupyter:
     container_name: mdf_jupyter
     image: jupyter/scipy-notebook:latest
@@ -21,22 +30,25 @@ services:
     - ./data:/data:rw
     - .:/home/jovyan:rw
   minio:
+    # Minio Server
     command: server /data
     container_name: mdf_minio
     environment:
+      # minio access setup.
       MINIO_ACCESS_KEY: mdf_minio_access_key
       MINIO_SECRET_KEY: mdf_minio_secret_key
-      MINIO_NOTIFY_MQTT_ENABLE_target1: "on"
-      MINIO_NOTIFY_MQTT_BROKER_target1: "tcp://mdf_rabbitmq:5672"
-      MINIO_NOTIFY_MQTT_TOPIC_target1: "minio/notify"
+     
       MINIO_NOTIFY_WEBHOOK_ENABLE_target1: "on"
-      MINIO_NOTIFY_WEBHOOK_ENDPOINT_target1: "http://mdf_flask:5000/minio_notify_webhook_endpoint/"
+      MINIO_NOTIFY_WEBHOOK_AUTH_TOKEN: "webhook_AUTH_token"
+      MINIO_NOTIFY_WEBHOOK_AUTH_TOKEN_target1: "webhook_AUTH_token"
+      MINIO_NOTIFY_WEBHOOK_ENDPOINT_target1: "http://s3_callback:5000/minio_notify_webhook_endpoint/"
       MINIO_LOGGER_WEBHOOK_ENABLE_target1: "on"
-      MINIO_LOGGER_WEBHOOK_AUTH_TOKEN_target1: "logger_auth_token"
-      MINIO_LOGGER_WEBHOOK_ENDPOINT_target1: "http://mdf_flask:5000/minio_logger_webhook_endpoint/"
+      MINIO_LOGGER_WEBHOOK_AUTH_TOKEN: "logger_AUTH_token"
+      MINIO_LOGGER_WEBHOOK_AUTH_TOKEN_target1: "logger_AUTH_token_target1"
+      MINIO_LOGGER_WEBHOOK_ENDPOINT_target1: "http://s3_callback:5000/minio_logger_webhook_endpoint/"
       MINIO_AUDIT_WEBHOOK_ENABLE_target1: "on"
-      MINIO_AUDIT_WEBHOOK_AUTH_TOKEN_target1: "autit_auth_token"
-      MINIO_AUDIT_WEBHOOK_ENDPOINT_target1: "http://mdf_flask:5000/minio_audit_webhook_endpoint/"
+      MINIO_AUDIT_WEBHOOK_AUTH_TOKEN_target1: "audit_AUTH_token"
+      MINIO_AUDIT_WEBHOOK_ENDPOINT_target1: "http://s3_callback:5000/minio_audit_webhook_endpoint/"
     hostname: mdf_minio
     image: minio/minio:latest
     ports:
@@ -58,17 +70,6 @@ services:
     restart: always
     volumes:
     - ./mysql_db_data:/var/lib/mysql:rw
-  rabbitmq:
-    container_name: mdf_rabbitmq
-    environment:
-      RABBITMQ_DEFAULT_PASS: rabbitmq_pass
-      RABBITMQ_DEFAULT_USER: rabbitmq_user
-    hostname: mdf_rabbitmq
-    image: rabbitmq:3-management
-    ports:
-    - 45672:5672/tcp
-    - 55672:15672/tcp
-    restart: always
   redis:
     command: redis-server
     container_name: mdf_redis
@@ -85,4 +86,3 @@ services:
     - 49181:9181
     environment:
       RQ_DASHBOARD_REDIS_URL: redis://redis:6379
-version: '3.0'
